@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,25 +17,24 @@ export class LoginComponent implements OnInit {
   alertaMensaje?: string;
   alertaTipo: boolean = true;
 
-
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private changeDetector: ChangeDetectorRef,
+    private ngZone: NgZone,
     //private usuarioService: UsuarioService,
     private router: Router
   ) { this.createForm() }
 
   ngOnInit(): void {
     this.authService.alert.subscribe(data => {
-     this.alertaMensaje = data.alerta.message
-     this.alertaTipo = data.alerta.success;
-     this.changeDetector.detectChanges();
-     console.log(this.alertaMensaje)
-     console.log(this.alertaTipo)
- 
-    })
+        this.ngZone.run( () => {
+        this.alertaMensaje = data.alerta.message
+        this.alertaTipo = data.alerta.success;
+        console.log(this.alertaMensaje)
+        console.log(this.alertaTipo)
+        });
+     })
   }
 
   login(): void {
@@ -60,7 +59,8 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           console.log(error)
-          
+          this.router.navigate(['verificar/cuenta']);
+
         },
       );
     }
@@ -94,6 +94,14 @@ export class LoginComponent implements OnInit {
     };
   }
 
-
+  /*
+  displayAlert(){
+    return `
+    <div class="alert alert-primary" role="alert" >
+      ${this.alertaMensaje}
+    </div>
+    `
+  }
+*/
 
 }

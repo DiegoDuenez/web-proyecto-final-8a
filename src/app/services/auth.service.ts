@@ -49,6 +49,10 @@ export class AuthService {
     return this.httpClient.post(`${this.apiURL}register`, user);
   }
 
+  verify(codigo: any){
+    return this.httpClient.get(`${this.apiURL}register/verify/${codigo}`);
+  }
+
 
 
 }

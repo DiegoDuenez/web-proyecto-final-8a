@@ -1,0 +1,34 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Confirmación de cuenta</div>
+  
+                <div class="card-body">
+                    <form [formGroup]="verifyForm" (ngSubmit)="verify()">
+  
+                        <p class="text-center">Esta cuenta no ha sido verificada.</p>
+                        <p class="text-center">Ingresa el codigo que enviamos a tu correo</p>
+
+                        <div class="form-group row">
+                            <label for="code" class="col-md-4 col-form-label text-md-right">Code</label>
+                            <div class="col-md-6">
+                                <input id="code" type="number" id="code" class="form-control" name="code" required autocomplete="code" autofocus
+                                formControlName="code"
+                                [class.is-invalid]="codeValidate">
+                            </div>
+                        </div>
+  
+                        <div class="form-group row mb-0 mt-3">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 import { User } from '../../models/user';
-import { LoginComponent } from '../login/login.component';
+//import Swal from 'sweetalert2/dist/sweetalert2.js'; 
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,6 @@ export class RegisterComponent implements OnInit  {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    //private usuarioService: UsuarioService,
     private router: Router
   ) { this.createForm() }
 
@@ -47,17 +47,34 @@ export class RegisterComponent implements OnInit  {
             success: true
           }
         })
-        this.router.navigate(['/login']);
-        
+        //this.router.navigate(['/login']);
+       this.confirmBox()
         
       }, error =>{
         console.log(error)
-      
-
       });
     }
 
   }
+
+  confirmBox(){  
+    Swal.fire({  
+      title: 'Gracias, por registrarte!',  
+      text: 'Confirma tu correo para poder logearte.',  
+      icon: 'success',  
+      showCancelButton: false,  
+      confirmButtonText: 'Ok',  
+    }).then((result) => {  
+      if (result.value) {  
+        this.router.navigate(['/login']);
+        /*Swal.fire(  
+          'Deleted!',  
+          'Your imaginary file has been deleted.',  
+          'success'  
+        )  */
+      } 
+    })  
+  }  
 
 
   get usernameValidate() {
