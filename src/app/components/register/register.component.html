@@ -1,22 +1,42 @@
 <div class="container d-flex  justify-content-center flex-column align-items-center gap-1">
     <h2>Registrarse</h2>
 
-    <form method="post">
+    <form  [formGroup]="registerForm" (ngSubmit)="register()">
         <div class="mb-3 mt-3 d-flex flex-column">
-            <label for="email" class="form-label">Correo eléctronico</label>
-            <input class="form-control" type="email" id="email" required autofocus placeholder="Correo eléctronico" name="email">
+            <label for="email" class="form-label">Nombre usuario</label>
+            <input class="form-control" type="text" id="username" required autofocus placeholder="Nombre de usuario" name="username"
+            formControlName="username"
+            [class.is-invalid]="usernameValidate">
         </div>
         <div class="mb-3 mt-3 d-flex flex-column">
-            <label for="name" class="form-label">Nombre</label>
-            <input class="form-control" type="text" id="name" required autofocus placeholder="Nombre" name="name" >
+            <label for="email" class="form-label">Nombre</label>
+            <input class="form-control" type="email" id="nombre" required autofocus placeholder="Correo eléctronico" name="nombre"
+            formControlName="nombre"
+            [class.is-invalid]="nombreValidate">
+        </div>
+        <div class="mb-3 mt-3 d-flex flex-column">
+            <label for="email" class="form-label">Apellidos</label>
+            <input class="form-control" type="email" id="apellidos" required autofocus placeholder="Correo eléctronico" name="apellidos"
+            formControlName="apellidos"
+            [class.is-invalid]="apellidosValidate">
+        </div>
+        <div class="mb-3 mt-3 d-flex flex-column">
+            <label for="email" class="form-label">Correo eléctronico</label>
+            <input class="form-control" type="email" id="email" required autofocus placeholder="Correo eléctronico" name="email"
+            formControlName="email"
+            [class.is-invalid]="emailValidate">
         </div>
         <div class="mb-3 mt-3 d-flex flex-column">
             <label for="phone" class="form-label">Número celular</label>
-            <input class="form-control" type="text" id="phone" required autofocus placeholder="Número celular" name="phone"  aria-label="password" aria-describedby="basic-addon1">
+            <input class="form-control" type="text" id="phone" required autofocus placeholder="Número celular" name="phone"  aria-describedby="basic-addon1"
+            formControlName="phone"
+            [class.is-invalid]="phoneValidate">
         </div>
         <div class="mb-3 d-flex flex-column">
             <label for="password" class="form-label">Contraseña (min. 10 digitos)</label>
-            <input  class="form-control" id="password" type="password" required placeholder="Contraseña" name="password">
+            <input  class="form-control" id="password" type="password" required placeholder="Contraseña" name="password"
+            formControlName="password"
+            [class.is-invalid]="passwordValidate">
         </div>
         <div class="d-grid gap-2">
             <input  class="btn btn-primary"  type="submit" value="Registrarme">

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,15 +14,28 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   user!: User;
 
+  alertaMensaje?: string;
+  alertaTipo: boolean = true;
+
+
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private changeDetector: ChangeDetectorRef,
     //private usuarioService: UsuarioService,
     private router: Router
-  ) { this.createForm()}
+  ) { this.createForm() }
 
   ngOnInit(): void {
-    
+    this.authService.alert.subscribe(data => {
+     this.alertaMensaje = data.alerta.message
+     this.alertaTipo = data.alerta.success;
+     this.changeDetector.detectChanges();
+     console.log(this.alertaMensaje)
+     console.log(this.alertaTipo)
+ 
+    })
   }
 
   login(): void {

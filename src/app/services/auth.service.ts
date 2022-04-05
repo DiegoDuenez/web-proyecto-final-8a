@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
@@ -12,6 +12,8 @@ export class AuthService {
 
   apiURL = environment.apiURL;
   httpheaders: HttpHeaders = new HttpHeaders();
+
+  @Output() alert: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private httpClient: HttpClient,
@@ -41,6 +43,10 @@ export class AuthService {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
     return this.httpClient.delete(`${this.apiURL}logout`)
+  }
+
+  register(user: User): Observable<any> {
+    return this.httpClient.post(`${this.apiURL}register`, user);
   }
 
 

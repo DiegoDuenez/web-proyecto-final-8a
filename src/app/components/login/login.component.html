@@ -1,8 +1,11 @@
 
 
+<div class="alert alert-primary" role="alert" *ngIf=" alertaTipo == true ">
+    {{ alertaMensaje }}
+</div>
 
 <div class="container d-flex  justify-content-center flex-column align-items-center mt-5 gap-1" >
-    <h2>Iniciar sesión</h2>
+    <h2>Iniciar sesión {{ alertaMensaje }}</h2>
     <form  [formGroup]="loginForm" (ngSubmit)="login()">
         <div class="mb-3 mt-3 d-flex flex-column">
             <label for="email" class="form-label">Usuario</label>
