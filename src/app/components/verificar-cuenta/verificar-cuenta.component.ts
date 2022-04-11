@@ -36,21 +36,21 @@ export class VerificarCuentaComponent implements OnInit {
       this.setUser();
       this.authService.verify(this.codigoConfirmacion).subscribe((data: any) => {
 
-        console.log(data.token)
         const token = data.token;
         localStorage.setItem('token', token);
-        this.confirmBox();
+        this.successBox();
         //this.router.navigate(['/login']);
        //this.confirmBox()
         
       }, error =>{
         console.log(error)
+        this.errorBox()
       });
     }
 
   }
 
-  confirmBox(){  
+  successBox(){  
     Swal.fire({  
       title: 'Gracias!',  
       text: 'Tu cuenta se ha verificado correctamente!',  
@@ -61,12 +61,19 @@ export class VerificarCuentaComponent implements OnInit {
     }).then((result) => {  
       if (result.value) {  
         this.router.navigate(['/profile']);
-        /*Swal.fire(  
-          'Deleted!',  
-          'Your imaginary file has been deleted.',  
-          'success'  
-        )  */
+       
       } 
+    })  
+  }  
+
+  errorBox(){  
+    Swal.fire({  
+      title: 'Hubo un problema',  
+      text: 'El codigo ingresado no existe',  
+      icon: 'error',  
+      showCancelButton: false,  
+      allowOutsideClick: false,
+      confirmButtonText: 'Ok',  
     })  
   }  
 

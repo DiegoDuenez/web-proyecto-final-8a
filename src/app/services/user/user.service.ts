@@ -32,4 +32,9 @@ export class UserService {
   update(user: User, id: String){
     return this.httpClient.put(`${this.apiURL}editar/usuarios/${id}`, user);
   }
+
+  solicitarPermiso(data: any){
+      return this.httpClient.post(`${this.apiURL}solicitar/permiso`, data);
+  }
+
 }

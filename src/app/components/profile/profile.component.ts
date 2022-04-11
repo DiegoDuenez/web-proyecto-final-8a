@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
 
   user!: User;
 
-  
+  dataRequest!: any;
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
     this.perfil();
   }
 
-  update(){
+  update(codigo: String = ''){
 
     if(this.profileEditForm.invalid){
       return Object.values(this.profileEditForm.controls).forEach(control =>{
@@ -47,20 +47,87 @@ export class ProfileComponent implements OnInit {
       });
     }
     else{
-      this.setUser();
+      this.setUser(codigo);
       this.userService.update(this.user, this.perfilObject.id).subscribe((data: any) => {
 
         console.log(data)
-        //const token = data.token;
-//        this.confirmBox();
-        //this.router.navigate(['/login']);
-       //this.confirmBox()
-        
+        Swal.fire({
+          title: `Autorizado`,
+          text: 'Se ha actualizado tu información',
+          icon: 'success'
+        })
+  
       }, error =>{
         console.log(error)
+          Swal.fire({
+            title: `No Autorizado`,
+            text: 'No se ha autorizado la acción',
+            icon: 'warning'
+          })
       });
     }
 
+  }
+
+
+  requestPermission(){
+
+    this.dataRequest = {
+      solicitud: "El usuario " + this.perfilObject.username_usuario  + " solicita poder editar los datos de su perfil" ,
+      requesting_user: this.perfilObject.id,
+      requested_item: this.perfilObject.id
+    }
+
+    this.userService.solicitarPermiso(this.dataRequest).subscribe((data: any) => {
+      console.log(data)
+      
+    }, error =>{
+      console.log(error)
+    });
+  }
+
+
+  confirmBox(){
+
+    if(this.perfilObject.rol_id == 1){
+
+      this.requestPermission()
+
+      Swal.fire({
+        title: 'Usuario no autorizado',
+        text: 'Ingresa el codigo de autorización que se envio a tu correo',
+        input: 'text',
+        allowOutsideClick: false,
+        inputAttributes: {
+          autocapitalize: 'off',
+        },
+        showCancelButton: false,
+        confirmButtonText: 'Confirmar',
+        showLoaderOnConfirm: true,
+        preConfirm: (codigo) => {
+
+          return this.update(codigo)
+          
+          /*return fetch(`//api.github.com/users/${login}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(response.statusText)
+              }
+              return response.json()
+            })
+            .catch(error => {
+                Swal.showValidationMessage(
+                  `Ingresa un codigo valido`
+                )
+            })*/
+
+        }
+        //allowOutsideClick: () => !Swal.isLoading()
+      })
+
+
+    }
+    
   }
 
   perfil(){
@@ -133,7 +200,7 @@ export class ProfileComponent implements OnInit {
     
   }
 
-  setUser(): void {
+  setUser(codigo: String): void {
     if(this.passwordInput === true){
         this.user = {
           username_usuario: this.profileEditForm.get('username')?.value,
@@ -142,6 +209,7 @@ export class ProfileComponent implements OnInit {
           email_usuario: this.profileEditForm.get('email')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value,
           password_usuario: this.profileEditForm.get('contraseña')?.value,
+          codigo_verificacion: codigo
         };
     }
     else{
@@ -151,6 +219,8 @@ export class ProfileComponent implements OnInit {
         apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
         email_usuario: this.profileEditForm.get('email')?.value,
         numero_usuario: this.profileEditForm.get('numero')?.value,
+        codigo_verificacion: codigo
+
       };
     }
   }
