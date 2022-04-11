@@ -15,6 +15,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProfileComponent } from './components/profile/profile.component';
 import { VerificarCuentaComponent } from './components/verificar-cuenta/verificar-cuenta.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarLoggedComponent } from './components/navbar-logged/navbar-logged.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     NavbarComponent,
     ProfileComponent,
     VerificarCuentaComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarLoggedComponent
   ],
   imports: [
     BrowserModule,

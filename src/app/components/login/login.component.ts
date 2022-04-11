@@ -14,6 +14,9 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   user!: User;
+  
+  isLogged: boolean = false;
+  
 
   alertaMensaje?: string;
   alertaTipo: boolean = true;
@@ -69,6 +72,7 @@ export class LoginComponent implements OnInit {
           const token = data.token;
           localStorage.setItem('token', token);
           console.log(token)
+          this.isLogged = true;
           this.router.navigate(['/profile']);
 
           //this.getPerfil()
