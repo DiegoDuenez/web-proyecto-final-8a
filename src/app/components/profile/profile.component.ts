@@ -134,6 +134,7 @@ export class ProfileComponent implements OnInit {
     this.authService.perfil().subscribe((data: any) => {
 
       this.perfilObject = data;
+      console.log(this.perfilObject)
       //this.router.navigate(['/login']);
     // this.confirmBox()
       

@@ -16,6 +16,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { VerificarCuentaComponent } from './components/verificar-cuenta/verificar-cuenta.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarLoggedComponent } from './components/navbar-logged/navbar-logged.component';
+import { ProductosComponent } from './components/productos/productos.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { PeticionesComponent } from './components/peticiones/peticiones.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { NavbarLoggedComponent } from './components/navbar-logged/navbar-logged.
     ProfileComponent,
     VerificarCuentaComponent,
     SidebarComponent,
-    NavbarLoggedComponent
+    NavbarLoggedComponent,
+    ProductosComponent,
+    UsuariosComponent,
+    PeticionesComponent
   ],
   imports: [
     BrowserModule,
