@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from '../../models/user';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,22 @@ export class LoginComponent implements OnInit {
      })
   }
 
+  confirmBox(){  
+    Swal.fire({  
+      title: 'Datos incorrectos',  
+      text: 'Los datos ingresados no son correctos',  
+      icon: 'error',  
+      showCancelButton: false,  
+      allowOutsideClick: false,
+      confirmButtonText: 'Ok',  
+    })/*.then((result) => {  
+      if (result.value) {  
+        this.router.navigate(['/profile']);
+       
+      } 
+    })  */
+  }  
+
   login(): void {
 
     //alert('ola');
@@ -52,14 +69,22 @@ export class LoginComponent implements OnInit {
           const token = data.token;
           localStorage.setItem('token', token);
           console.log(token)
+          this.router.navigate(['/profile']);
+
           //this.getPerfil()
           //this.rolService.setUserName(this.user.username);
           //this.perfilUsuario()
           
         },
         (error) => {
-          console.log(error)
-          this.router.navigate(['verificar/cuenta']);
+          //console.log(error.error.message)
+          if(error.error.message == "La cuenta no se ha activado, verifique su correo."){
+              this.router.navigate(['verificar/cuenta']);
+
+          }
+          else if(error.error.message == "Los datos ingresados son incorrectos"){
+            this.confirmBox()
+          }
 
         },
       );

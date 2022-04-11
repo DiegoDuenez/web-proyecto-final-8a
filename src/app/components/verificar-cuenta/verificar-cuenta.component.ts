@@ -36,7 +36,9 @@ export class VerificarCuentaComponent implements OnInit {
       this.setUser();
       this.authService.verify(this.codigoConfirmacion).subscribe((data: any) => {
 
-        console.log(data)
+        console.log(data.token)
+        const token = data.token;
+        localStorage.setItem('token', token);
         this.confirmBox();
         //this.router.navigate(['/login']);
        //this.confirmBox()
@@ -54,10 +56,11 @@ export class VerificarCuentaComponent implements OnInit {
       text: 'Tu cuenta se ha verificado correctamente!',  
       icon: 'success',  
       showCancelButton: false,  
+      allowOutsideClick: false,
       confirmButtonText: 'Ok',  
     }).then((result) => {  
       if (result.value) {  
-        this.router.navigate(['/login']);
+        this.router.navigate(['/profile']);
         /*Swal.fire(  
           'Deleted!',  
           'Your imaginary file has been deleted.',  

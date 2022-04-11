@@ -10,5 +10,6 @@ export interface User {
     password_usuario?: String;
     rol_id?: Number;
     status_usuario?: Boolean;
+    cambiar_contraseña?: Boolean;
 
 }

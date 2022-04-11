@@ -14,6 +14,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProfileComponent } from './components/profile/profile.component';
 import { VerificarCuentaComponent } from './components/verificar-cuenta/verificar-cuenta.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { VerificarCuentaComponent } from './components/verificar-cuenta/verifica
     RegisterComponent,
     NavbarComponent,
     ProfileComponent,
-    VerificarCuentaComponent
+    VerificarCuentaComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
