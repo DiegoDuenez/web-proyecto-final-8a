@@ -1,1 +1,56 @@
-<p>productos works!</p>
+
+<app-navbar-logged></app-navbar-logged>
+
+<div class="container mt-5">
+
+    <button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button> 
+
+    <table class="table mt-5 table-hover" >
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Registrado por</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productoObject">
+            <td scope="row">{{producto.nombre_producto}}</td>
+            <td scope="row">$ {{producto.precio_producto}}</td>
+            <td scope="row">{{producto.username_usuario}}</td>
+            <td>
+              <button type="button" class="btn btn-danger">Eliminar</button> &nbsp;
+              <button type="button" class="btn btn-warning">Editar</button>
+            </td>
+          </tr>
+         
+        </tbody>
+      </table>
+
+</div>
+
+
+<!-- MODAL CREAR PRODUCTO -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="productoCreateForm" (ngSubmit)="create()">
+        <div class="modal-body">
+            <input type="text" class="form-control" formControlName="nombre"  placeholder="Nombre del producto"
+            [class.is-invalid]="nombreValidate" required>
+            <input type="number" class="form-control mt-3" required formControlName="precio" min="1" placeholder="Precio del producto" step=".01"
+            [class.is-invalid]="precioValidate">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
