@@ -41,6 +41,15 @@ export class ProductoService {
 
     post(producto: Producto){
       return this.httpClient.post(`${this.apiURL}crear/productos/`, producto);
-
     }
+
+    solicitarPermiso(data: any){
+      return this.httpClient.post(`${this.apiURL}solicitar/permiso/producto`, data);
+    }
+
+    delete(data: any, id: String){
+      return this.httpClient.post(`${this.apiURL}eliminar/productos/${id}`, data);
+    }
+
+
 }

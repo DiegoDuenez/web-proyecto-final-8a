@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductoService} from 'src/app/services/producto/producto.service';
@@ -18,6 +18,11 @@ export class ProductosComponent implements OnInit {
   producto!: Producto;
 
   perfilObject!: any;
+  dataRequest!: any;
+
+  itemSelected!: any;
+
+  data!: any;
 
 
   constructor(
@@ -52,7 +57,6 @@ export class ProductosComponent implements OnInit {
         if (result.value) {  
           this.setProducto();
           this.productoService.post(this.producto).subscribe((data: any) => {
-            console.log(data)
             this.productos();
           }, error =>{
             console.log(error)
@@ -64,6 +68,89 @@ export class ProductosComponent implements OnInit {
         } 
       })  
     }
+  }
+
+  delete(codigo: String = ''){
+
+    this.setData(codigo);
+    this.productoService.delete(this.data, this.itemSelected.id).subscribe((data: any) => {
+
+      Swal.fire({
+        title: `Autorizado`,
+        text: 'Se ha eliminado el producto',
+        icon: 'success'
+      })
+      this.productos()
+
+    }, error =>{
+      console.log(error)
+        Swal.fire({
+          title: `No Autorizado`,
+          text: 'No se ha autorizado la acción',
+          icon: 'warning'
+        })
+    });
+  }
+
+  requestPermission(){
+
+    this.dataRequest = {
+      solicitud: "El usuario " + this.perfilObject.username_usuario  + " solicita poder eliminar el producto " + this.itemSelected.nombre_producto ,
+      requesting_user: this.perfilObject.id,
+      requested_item: this.itemSelected.id
+    }
+
+    this.productoService.solicitarPermiso(this.dataRequest).subscribe((data: any) => {
+      
+    }, error =>{
+      console.log(error)
+    });
+  }
+
+  onSelectItem(event: any){
+
+    Swal.fire({  
+      title: 'Aviso',  
+      text: '¿Estas seguro de eliminar este producto?',  
+      icon: 'warning',  
+      showCancelButton: true,  
+      confirmButtonText: 'Ok',  
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {  
+      if (result.value) {  
+
+        this.itemSelected = event
+
+        if(this.perfilObject.rol_id == 1){
+        
+          this.requestPermission()
+    
+          Swal.fire({
+            title: 'Usuario no autorizado',
+            text: 'Ingresa el codigo de autorización que se envio a tu correo',
+            input: 'text',
+            allowOutsideClick: false,
+            inputAttributes: {
+              autocapitalize: 'off',
+            },
+            showCancelButton: false,
+            confirmButtonText: 'Confirmar',
+            showLoaderOnConfirm: true,
+            preConfirm: (codigo) => {
+              return this.delete(codigo)
+            }
+          })
+    
+        }
+        else{
+          return this.delete('')
+
+        }
+        
+      } 
+    })  
+    
+    
   }
 
   confirmBox(){  
@@ -96,7 +183,6 @@ export class ProductosComponent implements OnInit {
   perfil(){
     this.authService.perfil().subscribe((data: any) => {
       this.perfilObject = data;
-      console.log(this.perfilObject)
       
     }, error =>{
       console.log(error)
@@ -132,6 +218,12 @@ export class ProductosComponent implements OnInit {
         user_id: this.perfilObject.id
         
       };
+  }
+
+  setData(codigo: String): void{
+    this.data = {
+      codigo_verificacion:  codigo
+    }
   }
 
 }
