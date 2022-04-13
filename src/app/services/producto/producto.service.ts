@@ -43,6 +43,14 @@ export class ProductoService {
       return this.httpClient.post(`${this.apiURL}crear/productos/`, producto);
     }
 
+    put(producto: Producto, id: String){
+      return this.httpClient.put(`${this.apiURL}editar/productos/${id}`, producto);
+    }
+
+    verificarCodigo(codigo: String){
+      return this.httpClient.get(`${this.apiURL}verificar/codigo/${codigo}`);
+    }
+
     solicitarPermiso(data: any){
       return this.httpClient.post(`${this.apiURL}solicitar/permiso/producto`, data);
     }

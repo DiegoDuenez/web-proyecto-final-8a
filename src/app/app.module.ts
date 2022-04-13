@@ -19,6 +19,8 @@ import { NavbarLoggedComponent } from './components/navbar-logged/navbar-logged.
 import { ProductosComponent } from './components/productos/productos.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { PeticionesComponent } from './components/peticiones/peticiones.component';
+import * as $ from 'jquery';
+import * as bootstrap from "bootstrap";
 
 @NgModule({
   declarations: [

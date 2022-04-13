@@ -6,6 +6,7 @@ import { AuthService} from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { Producto } from '../../models/producto';
 
+
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -14,15 +15,25 @@ import { Producto } from '../../models/producto';
 export class ProductosComponent implements OnInit {
 
   productoObject!: any;
+
   productoCreateForm!: FormGroup;
+  productoEditForm!: FormGroup;
+
   producto!: Producto;
+  productoEdit!: Producto;
 
   perfilObject!: any;
   dataRequest!: any;
 
   itemSelected!: any;
+  itemSelectedEdit!: any;
+
+  nombreProducto!: String;
+  precioProducto!: String;
 
   data!: any;
+
+  codigo!: String;
 
 
   constructor(
@@ -30,7 +41,9 @@ export class ProductosComponent implements OnInit {
     private productoService: ProductoService,
     private authService: AuthService,
     private router: Router
-  ) { this.createForm()}
+  ) { this.createForm();
+  this.editForm()
+}
 
   ngOnInit(): void {
     this.productos()
@@ -58,6 +71,7 @@ export class ProductosComponent implements OnInit {
           this.setProducto();
           this.productoService.post(this.producto).subscribe((data: any) => {
             this.productos();
+            this.cerrarModal('#exampleModal')
           }, error =>{
             console.log(error)
             if(error.error.message == "El nombre del producto ya fue registrado anteriormente"){
@@ -69,6 +83,56 @@ export class ProductosComponent implements OnInit {
       })  
     }
   }
+
+  abrirModal(id: String){
+    (<any>$(id)).modal('show');
+  }
+
+  cerrarModal(id: String){
+    (<any>$(id)).modal('toggle');
+  }
+
+  // EDITAR PRODUCTO
+  edit(codigo?: String){
+
+
+    if(this.productoEditForm.invalid){
+      return Object.values(this.productoEditForm.controls).forEach(control =>{
+        control.markAsTouched();
+      });
+    }
+    else{
+
+      //(<any>$('#productoEditModal')).modal('show');
+      Swal.fire({  
+        title: 'Aviso',  
+        text: 'Estas seguro de editar el producto',  
+        icon: 'warning',  
+        showCancelButton: true,  
+        allowOutsideClick: false,
+        confirmButtonText: 'Ok',  
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {  
+        if (result.value) {  
+          this.setProductoEdit(this.codigo);
+          console.log(this.productoEdit)
+          this.productoService.put(this.productoEdit, this.itemSelected.id).subscribe((data: any) => {
+            this.productos();
+            this.cerrarModal('#productoEditModal');
+          }, error =>{
+            console.log(error)
+            if(error.error.message == "El nombre del producto ya fue registrado anteriormente"){
+              this.confirmBox()
+            }
+  
+          })
+        } 
+      })  
+
+      
+    }
+  }
+
 
   delete(codigo: String = ''){
 
@@ -92,10 +156,10 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  requestPermission(){
+  requestPermission(mensaje: String){
 
     this.dataRequest = {
-      solicitud: "El usuario " + this.perfilObject.username_usuario  + " solicita poder eliminar el producto " + this.itemSelected.nombre_producto ,
+      solicitud: "El usuario " + this.perfilObject.username_usuario  + " solicita poder "+ mensaje + " " +this.itemSelected.nombre_producto ,
       requesting_user: this.perfilObject.id,
       requested_item: this.itemSelected.id
     }
@@ -123,7 +187,7 @@ export class ProductosComponent implements OnInit {
 
         if(this.perfilObject.rol_id == 1){
         
-          this.requestPermission()
+          this.requestPermission("eliminar el producto")
     
           Swal.fire({
             title: 'Usuario no autorizado',
@@ -153,6 +217,67 @@ export class ProductosComponent implements OnInit {
     
   }
 
+  onSelectItemEdit(event: any){
+
+      this.itemSelected = event
+      this.nombreProducto = this.itemSelected.nombre_producto
+      this.precioProducto = this.itemSelected.precio_producto
+      console.log(this.itemSelected)
+
+      if(this.perfilObject.rol_id == 1){
+      
+        this.requestPermission("editar el producto")
+  
+        Swal.fire({
+          title: 'Usuario no autorizado',
+          text: 'Ingresa el codigo de autorización que se envio a tu correo',
+          input: 'text',
+          allowOutsideClick: false,
+          inputAttributes: {
+            autocapitalize: 'off',
+          },
+          showCancelButton: false,
+          confirmButtonText: 'Confirmar',
+          showLoaderOnConfirm: true,
+          preConfirm: (codigo) => {
+
+            this.verificarCodigo(codigo)
+            
+           // return this.delete(codigo)
+          }
+        })
+  
+      }
+      else{
+        return this.delete('')
+      }
+  
+  }
+
+  verificarCodigo(codigo: String){
+
+    
+    this.productoService.verificarCodigo(codigo).subscribe((data: any) => {
+      console.log(data)
+      this.codigo = codigo;
+      this.abrirModal('#productoEditModal')
+
+    }, error =>{
+      console.log(error)
+     // if(error.error.message == "este codigo no existe"){
+        Swal.fire({
+          title: `No Autorizado`,
+          text: 'No se ha autorizado la acción',
+          icon: 'warning'
+        })
+      //}
+
+
+
+    })
+
+  }
+
   confirmBox(){  
     Swal.fire({  
       title: 'Datos incorrectos',  
@@ -169,6 +294,9 @@ export class ProductosComponent implements OnInit {
     })  */
   } 
 
+
+  /* GET PRODUCTOS */
+
   productos(){
     this.productoService.get().subscribe((data: any) => {
 
@@ -180,6 +308,8 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  /* GET AUTH PERFIL */
+
   perfil(){
     this.authService.perfil().subscribe((data: any) => {
       this.perfilObject = data;
@@ -189,12 +319,25 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  /* CREATE PRODUCTO FORM */
+
   createForm(): void {
     this.productoCreateForm = this.fb.group({
       nombre: ['', [Validators.required]],
       precio: ['', [Validators.required]],
     });
   }
+
+  /* EDIT PRODUCTO FORM */
+
+  editForm(): void {
+    this.productoEditForm = this.fb.group({
+      nombre_edit: ['', [Validators.required]],
+      precio_edit: ['', [Validators.required]],
+    });
+  }
+
+  /* VALIDATOR CREATE PRODUCTO */
 
   get precioValidate() {
     return (
@@ -210,6 +353,24 @@ export class ProductosComponent implements OnInit {
     );
   }
 
+  /* VALIDATOR EDIT PRODUCTO */
+  
+  get precioEditValidate() {
+    return (
+      this.productoEditForm.get('precio_edit')?.invalid &&
+      this.productoEditForm.get('precio_edit')?.touched
+    );
+  }
+
+  get nombreEditValidate() {
+    return (
+      this.productoEditForm.get('nombre_edit')?.invalid &&
+      this.productoEditForm.get('nombre_edit')?.touched
+    );
+  }
+
+
+  /* SET PRODUCTO CREATE */
 
   setProducto(): void {
       this.producto = {
@@ -219,6 +380,19 @@ export class ProductosComponent implements OnInit {
         
       };
   }
+
+  /* SET PRODUCTO EDIT */
+
+  setProductoEdit(codigo?: String): void {
+    this.productoEdit = {
+      nombre_producto: this.productoEditForm.get('nombre_edit')?.value,
+      precio_producto: this.productoEditForm.get('precio_edit')?.value,
+      codigo_verificacion: codigo,
+      
+    };
+  }
+
+  /* SET DATO CODIGO VERIFICACION */
 
   setData(codigo: String): void{
     this.data = {

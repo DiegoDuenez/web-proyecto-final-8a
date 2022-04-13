@@ -8,5 +8,6 @@ export interface Producto {
     created_at?: Date;
     updated_at?: Date;
     deleted_at?: Date;
+    codigo_verificacion?: String;
 
 }

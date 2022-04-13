@@ -21,7 +21,7 @@
             <td scope="row">{{producto.username_usuario}}</td>
             <td>
               <button type="button" class="btn btn-danger" (click)="onSelectItem(producto)">Eliminar</button> &nbsp;
-              <button type="button" class="btn btn-warning" >Editar</button>
+              <button type="button" class="btn btn-warning" (click)="onSelectItemEdit(producto)"  >Editar</button>
             </td>
           </tr>
          
@@ -46,6 +46,30 @@
             [class.is-invalid]="nombreValidate" required>
             <input type="number" class="form-control mt-3" required formControlName="precio" min="1" placeholder="Precio del producto" step=".01"
             [class.is-invalid]="precioValidate">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR PRODUCTO --->
+
+<div class="modal fade" id="productoEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="productoEditForm" (ngSubmit)="edit()">
+        <div class="modal-body">
+            <input type="text" class="form-control" formControlName="nombre_edit"  [(ngModel)]="nombreProducto" placeholder="Nombre del producto"
+            [class.is-invalid]="nombreEditValidate" required >
+            <input type="number" class="form-control mt-3" required formControlName="precio_edit" min="1" [(ngModel)]="precioProducto" placeholder="Precio del producto" step=".01"
+            [class.is-invalid]="precioEditValidate">
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Guardar</button>
