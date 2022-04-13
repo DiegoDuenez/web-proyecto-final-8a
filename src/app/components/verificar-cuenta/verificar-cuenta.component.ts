@@ -12,6 +12,8 @@ import { User } from '../../models/user';
 })
 export class VerificarCuentaComponent implements OnInit {
 
+  
+
   verifyForm!: FormGroup;
   user!: User;
   codigoConfirmacion?: String;

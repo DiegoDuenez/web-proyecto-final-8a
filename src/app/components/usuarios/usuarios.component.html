@@ -1,1 +1,48 @@
-<p>usuarios works!</p>
+<app-navbar-logged></app-navbar-logged>
+
+
+<div class="container mt-5">
+
+    <!--<button type="button" class="btn btn-success" (click)="onSelectItemCreate()"  >Registrar producto</button>--> 
+
+    <table class="table mt-5 table-hover" >
+        <thead class="table-dark">
+          <tr class="text-center">
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Email</th>
+            <th scope="col">Número</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Status</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarioObject" class="text-center">
+            <td scope="row">{{u.username_usuario}}</td>
+            <td scope="row">{{u.nombre_usuario}}</td>
+            <td scope="row">{{u.apellidos_usuario}}</td>
+            <td scope="row">{{u.email_usuario}}</td>
+            <td scope="row">{{u.numero_usuario}}</td>
+            <td scope="row">
+                <span *ngIf="u.rol_id== 1" title="Bajo nivel" style="font-size:1.5rem"><i class="fa-solid fa-user"></i></span>
+                <span *ngIf="u.rol_id== 2" title="Medio nivel" style="font-size:1.5rem"><i class="fa-solid fa-user-tie" ></i></span>
+                <span *ngIf="u.rol_id== 3" title="Admin" style="font-size:1.5rem"><i class="fa-solid fa-user-astronaut"></i></span>
+            </td>
+            <td scope="row" > 
+                <span *ngIf="u.status_usuario== 1"><i class="fa-solid fa-circle text-success" style="font-size:1rem"></i></span>
+                <span *ngIf="u.status_usuario== 0"><i class="fa-solid fa-ban text-danger" style="font-size:1rem"></i></span>
+            </td>
+
+            <td>
+              <button type="button" class="btn btn-danger" *ngIf="u.status_usuario== 1 && u.id != perfilObject.id">Eliminar</button> &nbsp;
+              <button type="button" class="btn btn-info" *ngIf="u.status_usuario== 0">Recuperar</button> &nbsp;
+              <button type="button" class="btn btn-warning">Editar</button>
+            </td>
+          </tr>
+         
+        </tbody>
+      </table>
+
+</div>

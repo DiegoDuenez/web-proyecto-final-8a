@@ -89,6 +89,15 @@ export class LoginComponent implements OnInit {
           else if(error.error.message == "Los datos ingresados son incorrectos"){
             this.confirmBox()
           }
+          else if(error.error.message == "La cuenta se ha deshabilitado."){
+            Swal.fire({  
+              title: 'Cuenta deshabilitada',  
+              text: 'Esta cuenta se ha deshabilitado',  
+              icon: 'warning',  
+              showCancelButton: false,  
+              confirmButtonText: 'Ok',  
+            })
+          }
 
         },
       );

@@ -28,6 +28,16 @@ export class UserService {
     );
   }
 
+  get(id?: String){
+
+    if(id){
+      return this.httpClient.get(`${this.apiURL}mostrar/usuarios/${id}`);
+    }
+    else{
+      return this.httpClient.get(`${this.apiURL}mostrar/usuarios`);
+    }
+
+  }
 
   update(user: User, id: String){
     return this.httpClient.put(`${this.apiURL}editar/usuarios/${id}`, user);

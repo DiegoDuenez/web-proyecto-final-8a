@@ -351,6 +351,7 @@ export class ProductosComponent implements OnInit {
       title: 'Cargando productos',
       html: 'Por favor espere...',
       timerProgressBar: true,
+      allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading()
       }
