@@ -3,7 +3,7 @@
 
 <div class="container mt-5">
 
-    <button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#exampleModal">Registrar producto</button> 
+    <button type="button" class="btn btn-success" (click)="onSelectItemCreate()"  >Registrar producto</button> 
 
     <table class="table mt-5 table-hover" >
         <thead>
@@ -33,7 +33,7 @@
 
 <!-- MODAL CREAR PRODUCTO -->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="productoCreateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
