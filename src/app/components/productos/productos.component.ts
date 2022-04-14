@@ -468,7 +468,7 @@ export class ProductosComponent implements OnInit {
     };
   }
 
-  /* SET DATO CODIGO VERIFICACION */
+  /* SET DATA CODIGO VERIFICACION */
 
   setData(codigo: String): void{
     this.data = {

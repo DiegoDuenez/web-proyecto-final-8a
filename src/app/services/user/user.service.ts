@@ -43,6 +43,10 @@ export class UserService {
     return this.httpClient.put(`${this.apiURL}editar/usuarios/${id}`, user);
   }
 
+  delete(data: any, id: String){
+    return this.httpClient.post(`${this.apiURL}eliminar/usuarios/${id}`, data);
+  }
+
   solicitarPermiso(data: any){
       return this.httpClient.post(`${this.apiURL}solicitar/permiso`, data);
   }
