@@ -71,9 +71,16 @@ export class LoginComponent implements OnInit {
           
           const token = data.token;
           localStorage.setItem('token', token);
-          console.log(token)
-          this.isLogged = true;
-          this.router.navigate(['/profile']);
+          console.log(data)
+          if(data.user.rol_id == 1){
+            this.isLogged = true;
+            this.router.navigate(['/profile']);
+          }
+          else if(data.user.rol_id == 2){
+            console.log("es rol 2")
+            // DE AQUI SE VA A DORM CODIGO AUTENTICACION
+          }
+          
 
           //this.getPerfil()
           //this.rolService.setUserName(this.user.username);
@@ -82,6 +89,7 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           //console.log(error.error.message)
+          console.log(error)
           if(error.error.message == "La cuenta no se ha activado, verifique su correo."){
               this.router.navigate(['verificar/cuenta']);
 

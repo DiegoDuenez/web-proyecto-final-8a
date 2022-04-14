@@ -21,6 +21,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { PeticionesComponent } from './components/peticiones/peticiones.component';
 import * as $ from 'jquery';
 import * as bootstrap from "bootstrap";
+import { FormCodigoAutenticacionComponent } from './components/form-codigo-autenticacion/form-codigo-autenticacion.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import * as bootstrap from "bootstrap";
     NavbarLoggedComponent,
     ProductosComponent,
     UsuariosComponent,
-    PeticionesComponent
+    PeticionesComponent,
+    FormCodigoAutenticacionComponent
   ],
   imports: [
     BrowserModule,

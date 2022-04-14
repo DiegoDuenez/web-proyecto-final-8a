@@ -107,24 +107,15 @@ export class ProfileComponent implements OnInit {
         preConfirm: (codigo) => {
 
           return this.update(codigo)
-          
-          /*return fetch(`//api.github.com/users/${login}`)
-            .then(response => {
-              if (!response.ok) {
-                throw new Error(response.statusText)
-              }
-              return response.json()
-            })
-            .catch(error => {
-                Swal.showValidationMessage(
-                  `Ingresa un codigo valido`
-                )
-            })*/
+        
 
         }
-        //allowOutsideClick: () => !Swal.isLoading()
+        
       })
 
+    }
+    else{
+      return this.update()
 
     }
     
@@ -199,7 +190,10 @@ export class ProfileComponent implements OnInit {
   }
 
   setUser(codigo: String): void {
-    if(this.passwordInput === true){
+
+    if(this.perfilObject.rol_id == 1){
+
+      if(this.passwordInput === true){
         this.user = {
           username_usuario: this.profileEditForm.get('username')?.value,
           nombre_usuario: this.profileEditForm.get('nombre')?.value,
@@ -209,18 +203,43 @@ export class ProfileComponent implements OnInit {
           password_usuario: this.profileEditForm.get('contraseña')?.value,
           codigo_verificacion: codigo
         };
-    }
-    else{
-      this.user = {
-        username_usuario: this.profileEditForm.get('username')?.value,
-        nombre_usuario: this.profileEditForm.get('nombre')?.value,
-        apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
-        email_usuario: this.profileEditForm.get('email')?.value,
-        numero_usuario: this.profileEditForm.get('numero')?.value,
-        codigo_verificacion: codigo
+      }
+      else{
+        this.user = {
+          username_usuario: this.profileEditForm.get('username')?.value,
+          nombre_usuario: this.profileEditForm.get('nombre')?.value,
+          apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
+          email_usuario: this.profileEditForm.get('email')?.value,
+          numero_usuario: this.profileEditForm.get('numero')?.value,
+          codigo_verificacion: codigo
+        };
+      }
 
-      };
     }
+    else if(this.perfilObject.rol_id == 2 || this.perfilObject.rol_id == 3){
+
+      if(this.passwordInput === true){
+        this.user = {
+          username_usuario: this.profileEditForm.get('username')?.value,
+          nombre_usuario: this.profileEditForm.get('nombre')?.value,
+          apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
+          email_usuario: this.profileEditForm.get('email')?.value,
+          numero_usuario: this.profileEditForm.get('numero')?.value,
+          password_usuario: this.profileEditForm.get('contraseña')?.value
+        };
+      }
+      else{
+        this.user = {
+          username_usuario: this.profileEditForm.get('username')?.value,
+          nombre_usuario: this.profileEditForm.get('nombre')?.value,
+          apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
+          email_usuario: this.profileEditForm.get('email')?.value,
+          numero_usuario: this.profileEditForm.get('numero')?.value
+        };
+      }
+
+    }
+    
   }
     
 
