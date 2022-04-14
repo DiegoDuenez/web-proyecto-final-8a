@@ -38,11 +38,48 @@
             <td>
               <button type="button" class="btn btn-danger" *ngIf="u.status_usuario== 1 && u.id != perfilObject.id" (click)="onSelectItem(u)">Eliminar</button> &nbsp;
               <!--<button type="button" class="btn btn-info" *ngIf="u.status_usuario== 0">Recuperar</button> &nbsp;-->
-              <button type="button" class="btn btn-warning">Editar</button>
+              <button type="button" class="btn btn-warning" (click)="onSelectItemEdit(u)">Editar</button>
             </td>
           </tr>
          
         </tbody>
       </table>
 
+</div>
+
+
+<!-- MODAL EDITAR USUARIO --->
+
+<div class="modal fade" id="usuarioEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="usuarioEditForm" (ngSubmit)="edit()">
+        <div class="modal-body">
+            <input type="text" class="form-control" formControlName="username"  [(ngModel)]="usernameUsuario" placeholder="Username"
+            [class.is-invalid]="usernameValidate" required >
+            <input type="text" class="form-control mt-3" required formControlName="nombre"  [(ngModel)]="nombreUsuario" placeholder="Nombre del usuario"
+            [class.is-invalid]="nombreValidate">
+            <input type="text" class="form-control mt-3" required formControlName="apellidos"  [(ngModel)]="apellidosUsuario" placeholder="Nombre del usuario"
+            [class.is-invalid]="apellidosValidate">
+            <input type="text" class="form-control mt-3" required formControlName="email"  [(ngModel)]="emailUsuario" placeholder="Nombre del usuario"
+            [class.is-invalid]="emailValidate">
+            <input type="email" class="form-control mt-3" required formControlName="numero"  [(ngModel)]="numeroUsuario" placeholder="Nombre del usuario"
+            [class.is-invalid]="numeroValidate">
+            <select class="form-select mt-3" (change)="onSelectRol($event)"  >
+              <option disabled>Seleccionar rol</option>
+              <option *ngFor="let rol of rolesList" [value]="rol.id" [selected]="rol.id == rolUsuario">
+                {{rol.nombre_rol}}
+              </option>
+            </select>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
