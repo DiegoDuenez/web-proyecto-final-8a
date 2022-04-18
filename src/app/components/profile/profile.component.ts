@@ -35,7 +35,8 @@ export class ProfileComponent implements OnInit {
   ) { this.createForm() }
 
   ngOnInit(): void {
-
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('password');
     this.perfil();
   }
 

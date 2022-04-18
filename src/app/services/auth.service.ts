@@ -34,9 +34,18 @@ export class AuthService {
     return this.httpClient.post(`${this.apiURL}login`, user);
   }
 
+  loginRol2(user: User): Observable<any> {
+    return this.httpClient.post(`${this.apiURL}login/rol/2`, user);
+  }
+
   loggedIn(){
     return !! localStorage.getItem('token')
   }
+
+  authIn(){
+    return !! localStorage.getItem('usuario') && localStorage.getItem('password')
+  }
+
 
   logout() {
    // this.router.navigate(['/login']);

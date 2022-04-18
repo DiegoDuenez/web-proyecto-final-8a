@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guards/auth.guard';
+import { CodigoAuthGuard } from './guards/codigo-auth.guard';
 
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -50,7 +51,8 @@ import { FormCodigoAutenticacionComponent } from './components/form-codigo-auten
       useClass: AuthInterceptorService,
       multi: true
   },
-  AuthGuard
+  AuthGuard,
+  CodigoAuthGuard
     ],
   bootstrap: [AppComponent]
 })

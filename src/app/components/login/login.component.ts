@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from '../../models/user';
 import Swal from 'sweetalert2';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +17,11 @@ export class LoginComponent implements OnInit {
   user!: User;
   
   isLogged: boolean = false;
-  
 
   alertaMensaje?: string;
   alertaTipo: boolean = true;
+
+  swalProgress: any;
 
   constructor(
     private fb: FormBuilder,
@@ -31,14 +33,14 @@ export class LoginComponent implements OnInit {
   ) { this.createForm() }
 
   ngOnInit(): void {
-    this.authService.alert.subscribe(data => {
+    /*this.authService.alert.subscribe(data => {
         this.ngZone.run( () => {
         this.alertaMensaje = data.alerta.message
         this.alertaTipo = data.alerta.success;
         console.log(this.alertaMensaje)
         console.log(this.alertaTipo)
         });
-     })
+     })*/
   }
 
   confirmBox(){  
@@ -58,7 +60,7 @@ export class LoginComponent implements OnInit {
   }  
 
   login(): void {
-
+    this.timerBox()
     //alert('ola');
     if (this.loginForm.invalid) {
       return Object.values(this.loginForm.controls).forEach((control) => {
@@ -71,15 +73,21 @@ export class LoginComponent implements OnInit {
           
           const token = data.token;
           localStorage.setItem('token', token);
+          this.swalProgress.close()
           console.log(data)
           if(data.user.rol_id == 1){
             this.isLogged = true;
             this.router.navigate(['/profile']);
           }
           else if(data.user.rol_id == 2){
+            localStorage.setItem('usuario', this.loginForm.get('username')?.value)
+            localStorage.setItem('password', this.loginForm.get('password')?.value)
+
             console.log("es rol 2")
+            this.router.navigate(['/autenticacion/cuenta']);
             // DE AQUI SE VA A DORM CODIGO AUTENTICACION
           }
+          
           
 
           //this.getPerfil()
@@ -131,6 +139,18 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+  }
+
+  timerBox(){
+    this.swalProgress = Swal.fire({
+      title: 'Iniciando sesión',
+      html: 'Por favor espere...',
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
   }
 
   setUser(): void {

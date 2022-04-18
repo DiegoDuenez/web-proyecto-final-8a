@@ -260,7 +260,7 @@ export class ProductosComponent implements OnInit {
   
       }
       else{
-        return this.delete('')
+        this.abrirModal('#productoEditModal')
       }
   
   }
@@ -294,7 +294,7 @@ export class ProductosComponent implements OnInit {
 
     }
     else{
-      return this.delete('')
+      this.abrirModal('#productoCreateModal')
     }
 
 }

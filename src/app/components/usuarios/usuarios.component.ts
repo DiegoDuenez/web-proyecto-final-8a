@@ -340,7 +340,8 @@ export class UsuariosComponent implements OnInit {
 
     }
     else{
-      return this.delete('')
+      this.abrirModal('#usuarioEditModal')
+   
     }
 
 }
