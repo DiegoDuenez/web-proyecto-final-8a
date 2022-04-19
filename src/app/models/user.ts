@@ -8,7 +8,7 @@ export interface User {
     email_code_usuario?: String;
     numero_usuario?: String;
     password_usuario?: String;
-    rol_id?: Number;
+    rol_id?: String;
     status_usuario?: Boolean;
     cambiar_contraseña?: Boolean;
     codigo_verificacion?: String;

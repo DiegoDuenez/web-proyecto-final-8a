@@ -97,6 +97,8 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           //console.log(error.error.message)
+          this.swalProgress.close()
+
           console.log(error)
           if(error.error.message == "La cuenta no se ha activado, verifique su correo."){
               this.router.navigate(['verificar/cuenta']);

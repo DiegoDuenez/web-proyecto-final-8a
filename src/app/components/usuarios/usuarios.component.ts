@@ -63,8 +63,8 @@ export class UsuariosComponent implements OnInit {
 
       if(this.usuarioObject.length <= 0){
         Swal.fire({  
-          title: 'Sin productos',  
-          text: 'No hay ningun producto registrado aún',  
+          title: 'Sin usuarios',  
+          text: 'No hay ningun usuario registrado aún',  
           icon: 'info',  
           showCancelButton: false,  
           confirmButtonText: 'Ok',  
@@ -134,7 +134,7 @@ export class UsuariosComponent implements OnInit {
 
 
 
-  // EDITAR PRODUCTO
+  // EDITAR USUARIO
   edit(codigo?: String){
 
 
@@ -145,7 +145,6 @@ export class UsuariosComponent implements OnInit {
     }
     else{
 
-      //(<any>$('#productoEditModal')).modal('show');
       Swal.fire({  
         title: 'Aviso',  
         text: 'Estas seguro de editar el usuario',  
@@ -204,7 +203,7 @@ export class UsuariosComponent implements OnInit {
 
       Swal.fire({
         title: `Autorizado`,
-        text: 'Se ha eliminado el producto',
+        text: 'Se ha eliminado al usuario',
         icon: 'success'
       })
       this.usuarios()
@@ -262,7 +261,7 @@ export class UsuariosComponent implements OnInit {
     
     Swal.fire({  
       title: 'Aviso',  
-      text: '¿Estas seguro de eliminar este producto?',  
+      text: '¿Estas seguro de eliminar este usuario?',  
       icon: 'warning',  
       showCancelButton: true,  
       confirmButtonText: 'Ok',  
@@ -353,7 +352,7 @@ export class UsuariosComponent implements OnInit {
       apellidos_usuario: this.usuarioEditForm.get('apellidos')?.value,
       email_usuario: this.usuarioEditForm.get('email')?.value,
       numero_usuario: this.usuarioEditForm.get('numero')?.value,
-      rol_id: this.idRolSelect,
+      rol_id: this.rolUsuario,
       codigo_verificacion: codigo,
     };
   }
@@ -411,6 +410,7 @@ export class UsuariosComponent implements OnInit {
   onSelectRol(event: any){
 
     this.idRolSelect = event.target.value
+    this.rolUsuario = event.target.value
     console.log(event.target.value)
     this.userService.getRoles(event.target.value).subscribe((data: any) => {
 
