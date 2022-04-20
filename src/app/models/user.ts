@@ -13,5 +13,6 @@ export interface User {
     cambiar_contraseña?: Boolean;
     codigo_verificacion?: String;
     codigo_autenticacion?: String;
+    ip_public_usuario?: String;
 
 }

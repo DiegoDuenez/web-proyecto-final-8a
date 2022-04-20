@@ -60,4 +60,8 @@ export class UserService {
       return this.httpClient.post(`${this.apiURL}solicitar/permiso`, data);
   }
 
+  cambiarIp(data: any, id: String){
+    return this.httpClient.put(`${this.apiURL}editar/ip/usuarios/${id}`, data);
+
+  }
 }

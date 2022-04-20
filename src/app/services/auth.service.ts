@@ -38,12 +38,20 @@ export class AuthService {
     return this.httpClient.post(`${this.apiURL}login/rol/2`, user);
   }
 
+  loginRol3(user: User): Observable<any> { // pendiente
+    return this.httpClient.post(`${this.apiURL}login/rol/2`, user);
+  }
+
   loggedIn(){
     return !! localStorage.getItem('token')
   }
 
   authIn(){
     return !! localStorage.getItem('usuario') && localStorage.getItem('password')
+  }
+
+  authIn3(){
+    return !! localStorage.getItem('usuario') && localStorage.getItem('password') && localStorage.getItem('codigo') 
   }
 
 
@@ -63,6 +71,11 @@ export class AuthService {
   perfil(){
     return this.httpClient.get(`${this.apiURL}perfil`);
   }
+
+  public getIPAddress()  
+  {  
+    return this.httpClient.get("https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json");  
+  } 
 
 
 

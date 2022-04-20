@@ -18,6 +18,8 @@ export class RegisterComponent implements OnInit  {
 
   messageAlert!: String;
 
+  ipAddress!: String;
+
 
   constructor(
     private fb: FormBuilder,
@@ -26,7 +28,7 @@ export class RegisterComponent implements OnInit  {
   ) { this.createForm() }
 
   ngOnInit(): void {
-    
+    this.getIP()
   }
 
 
@@ -67,14 +69,17 @@ export class RegisterComponent implements OnInit  {
     }).then((result) => {  
       if (result.value) {  
         this.router.navigate(['/login']);
-        /*Swal.fire(  
-          'Deleted!',  
-          'Your imaginary file has been deleted.',  
-          'success'  
-        )  */
+       
       } 
     })  
   }  
+
+  getIP()  
+  {  
+    this.authService.getIPAddress().subscribe((data:any)=>{  
+      this.ipAddress = data.ip;  
+    });  
+  } 
 
 
   get usernameValidate() {
@@ -119,6 +124,13 @@ export class RegisterComponent implements OnInit  {
     );
   }
 
+  get ipValidate() {
+    return (
+      this.registerForm.get('ip')?.invalid &&
+      this.registerForm.get('ip')?.touched
+    );
+  }
+
   createForm(): void {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -127,6 +139,7 @@ export class RegisterComponent implements OnInit  {
       email: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       password: ['', [Validators.required]],
+      ip: ['', [Validators.required]],
     });
   }
 
@@ -138,6 +151,7 @@ export class RegisterComponent implements OnInit  {
       email_usuario: this.registerForm.get('email')?.value,
       numero_usuario: this.registerForm.get('phone')?.value,
       password_usuario: this.registerForm.get('password')?.value,
+      ip_public_usuario: this.registerForm.get('ip')?.value
     };
   }
 

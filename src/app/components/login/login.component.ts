@@ -79,17 +79,13 @@ export class LoginComponent implements OnInit {
             this.isLogged = true;
             this.router.navigate(['/profile']);
           }
-          else if(data.user.rol_id == 2){
+          else if(data.user.rol_id == 2 || data.user.rol_id == 3){
             localStorage.setItem('usuario', this.loginForm.get('username')?.value)
             localStorage.setItem('password', this.loginForm.get('password')?.value)
+            localStorage.setItem('rol', data.user.rol_id)
 
-            console.log("es rol 2")
             this.router.navigate(['/autenticacion/cuenta']);
-            // DE AQUI SE VA A DORM CODIGO AUTENTICACION
           }
-          
-          
-
           //this.getPerfil()
           //this.rolService.setUserName(this.user.username);
           //this.perfilUsuario()

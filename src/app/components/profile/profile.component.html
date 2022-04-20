@@ -3,7 +3,7 @@
 <div class="container">
     <form class="card" style="width: 25rem; margin: 2rem auto;" autocomplete="off" [formGroup]="profileEditForm" (ngSubmit)="confirmBox()">
         <div class="card-body">
-          <h5 class="card-title text-center">Perfil</h5>
+          <h5 class="card-title text-center">Perfil {{ipUsuario}}</h5>
           <p class="card-text text-center " style="font-size: 4.5rem;" *ngIf="perfilObject?.rol_id==1">
             <i class="fa-solid fa-user" ></i>
           </p>

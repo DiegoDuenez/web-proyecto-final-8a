@@ -35,6 +35,12 @@
             formControlName="phone"
             [class.is-invalid]="phoneValidate">
         </div>
+        <div class="mb-3 mt-3 d-flex flex-column">
+            <label for="phone" class="form-label">IP Pública</label>
+            <input class="form-control" type="text" id="ip" required autofocus placeholder="IP Pública" name="ip" [(ngModel)]="ipAddress"  aria-describedby="basic-addon1"
+            formControlName="ip"
+            [class.is-invalid]="ipValidate">
+        </div>
         <div class="mb-3 d-flex flex-column">
             <label for="password" class="form-label">Contraseña (min. 10 digitos)</label>
             <input  class="form-control" id="password" type="password" required placeholder="Contraseña" name="password"

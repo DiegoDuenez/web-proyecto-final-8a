@@ -6,14 +6,16 @@ import Swal from 'sweetalert2';
 import { User } from '../../models/user';
 
 @Component({
-  selector: 'app-form-codigo-autenticacion',
-  templateUrl: './form-codigo-autenticacion.component.html',
-  styleUrls: ['./form-codigo-autenticacion.component.css']
+  selector: 'app-form-codigo-celular',
+  templateUrl: './form-codigo-celular.component.html',
+  styleUrls: ['./form-codigo-celular.component.css']
 })
-export class FormCodigoAutenticacionComponent implements OnInit {
+export class FormCodigoCelularComponent implements OnInit {
 
+  
   verifyForm!: FormGroup;
   user!: User;
+  codigoConfirmacionAnterior?: any;
   codigoConfirmacion?: any;
   username!: any;
   password!: any;
@@ -30,6 +32,8 @@ export class FormCodigoAutenticacionComponent implements OnInit {
     this.username = localStorage.getItem('usuario')
     this.password = localStorage.getItem('password')
     this.rol = localStorage.getItem('rol')
+    this.codigoConfirmacionAnterior = localStorage.getItem('codigo')
+    console.log(this.codigoConfirmacionAnterior)
 
   }
 
@@ -43,8 +47,9 @@ export class FormCodigoAutenticacionComponent implements OnInit {
     else{
       this.setUser();
      
-        this.authService.loginRol2(this.user).subscribe((data: any) => {
-          if(this.rol == '2' ){
+        this.authService.loginRol3(this.user).subscribe((data: any) => {
+          /// FALTA TAMBIEN EN LARAVEL EL LOGIN 3
+          /*if(this.rol == '2' ){
             const token = data.token;
             console.log(data)
             console.log(this.rol)
@@ -52,9 +57,8 @@ export class FormCodigoAutenticacionComponent implements OnInit {
             this.successBox();
           }
           else if(this.rol == '3'){
-            localStorage.setItem('codigo', this.codigoConfirmacion);
-            this.successBox();
-          }
+            console.log(data)
+          }*/
           
         }, error =>{
           console.log(error)
@@ -89,12 +93,7 @@ export class FormCodigoAutenticacionComponent implements OnInit {
       confirmButtonText: 'Ok',  
     }).then((result) => {  
       if (result.value) {  
-        if(this.rol == '2'){
-          this.router.navigate(['/profile']);
-        }
-        else if(this.rol == '3'){
-          this.router.navigate(['/tercera/autenticacion/cuenta']);
-        }
+        this.router.navigate(['/profile']);
        
       } 
     })  

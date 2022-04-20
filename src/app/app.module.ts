@@ -10,6 +10,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guards/auth.guard';
 import { CodigoAuthGuard } from './guards/codigo-auth.guard';
+import { CodigoCelularGuard } from './guards/codigo-celular.guard';
 
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -23,6 +24,7 @@ import { PeticionesComponent } from './components/peticiones/peticiones.componen
 import * as $ from 'jquery';
 import * as bootstrap from "bootstrap";
 import { FormCodigoAutenticacionComponent } from './components/form-codigo-autenticacion/form-codigo-autenticacion.component';
+import { FormCodigoCelularComponent } from './components/form-codigo-celular/form-codigo-celular.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { FormCodigoAutenticacionComponent } from './components/form-codigo-auten
     ProductosComponent,
     UsuariosComponent,
     PeticionesComponent,
-    FormCodigoAutenticacionComponent
+    FormCodigoAutenticacionComponent,
+    FormCodigoCelularComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import { FormCodigoAutenticacionComponent } from './components/form-codigo-auten
       multi: true
   },
   AuthGuard,
-  CodigoAuthGuard
+  CodigoAuthGuard,
+  CodigoCelularGuard
     ],
   bootstrap: [AppComponent]
 })

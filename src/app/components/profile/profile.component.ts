@@ -16,6 +16,8 @@ export class ProfileComponent implements OnInit {
 
 
   nombreUsuario!: String;
+  ipUsuario!: String;
+  ipAddress!: String;
 
   perfilObject!: any;
 
@@ -26,6 +28,8 @@ export class ProfileComponent implements OnInit {
   user!: User;
 
   dataRequest!: any;
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +42,15 @@ export class ProfileComponent implements OnInit {
     localStorage.removeItem('usuario');
     localStorage.removeItem('password');
     this.perfil();
+    
   }
+
+  getIP()  
+  {  
+    this.authService.getIPAddress().subscribe((data:any)=>{  
+      this.ipAddress = data.ip;  
+    });  
+  } 
 
   update(codigo: String = ''){
 
@@ -125,11 +137,43 @@ export class ProfileComponent implements OnInit {
   perfil(){
     this.authService.perfil().subscribe((data: any) => {
       this.perfilObject = data;
-      console.log(this.perfilObject)
+      this.ipUsuario = data.ip_public_usuario
+
+      this.authService.getIPAddress().subscribe((data:any)=>{  
+        this.ipAddress = data.ip; 
+        
+        if(this.ipUsuario != this.ipAddress){
+          Swal.fire({  
+            title: 'Aviso!',  
+            text: `Tu ip publica ha cambiado debes actualizarla de ${this.ipUsuario} a ${this.ipAddress}.`,  
+            icon: 'info',  
+            showCancelButton: false,  
+            allowOutsideClick: false,
+            confirmButtonText: 'Actualizar',  
+          }).then((result) => {  
+            if (result.value) {  
+              this.cambiarIp()
+            
+            } 
+          }) 
+        }
+      });  
       
     }, error =>{
       console.log(error)
     });
+  }
+
+  cambiarIp(){
+    var data = {
+      'ip_public_usuario': this.ipAddress
+    }
+    this.userService.cambiarIp(data, this.perfilObject.id).subscribe((data: any) => {
+        console.log(data)
+        this.perfil()
+    }, error =>{
+      console.log(error)
+    })
   }
 
   createForm(): void {
