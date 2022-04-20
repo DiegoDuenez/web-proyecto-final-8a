@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   loginRol3(user: User): Observable<any> { // pendiente
-    return this.httpClient.post(`${this.apiURL}login/rol/2`, user);
+    return this.httpClient.post(`${this.apiURL}login/rol/3`, user);
   }
 
   loggedIn(){

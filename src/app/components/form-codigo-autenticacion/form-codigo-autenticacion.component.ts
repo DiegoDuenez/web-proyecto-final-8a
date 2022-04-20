@@ -18,6 +18,8 @@ export class FormCodigoAutenticacionComponent implements OnInit {
   username!: any;
   password!: any;
   rol!: any;
+  swalProgress: any;
+
 
   constructor( 
     private fb: FormBuilder,
@@ -35,6 +37,8 @@ export class FormCodigoAutenticacionComponent implements OnInit {
 
   verify(): void{
 
+    this.timerBox()
+
     if(this.verifyForm.invalid){
       return Object.values(this.verifyForm.controls).forEach(control =>{
         control.markAsTouched();
@@ -42,13 +46,14 @@ export class FormCodigoAutenticacionComponent implements OnInit {
     }
     else{
       this.setUser();
-     
+        
         this.authService.loginRol2(this.user).subscribe((data: any) => {
           if(this.rol == '2' ){
             const token = data.token;
             console.log(data)
             console.log(this.rol)
             localStorage.setItem('token', token);
+            this.swalProgress.close()
             this.successBox();
           }
           else if(this.rol == '3'){
@@ -77,6 +82,18 @@ export class FormCodigoAutenticacionComponent implements OnInit {
      
     }
 
+  }
+
+  timerBox(){
+    this.swalProgress = Swal.fire({
+      title: 'Verificando',
+      html: 'Por favor espere...',
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
   }
 
   successBox(){  

@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
   ipAddress!: String;
 
   perfilObject!: any;
+  swalProgress: any;
+  rolUsuario!: String;
 
   profileEditForm!: FormGroup;
 
@@ -135,13 +137,15 @@ export class ProfileComponent implements OnInit {
   }
 
   perfil(){
+    this.timerBox()
     this.authService.perfil().subscribe((data: any) => {
       this.perfilObject = data;
       this.ipUsuario = data.ip_public_usuario
+      this.rolUsuario = this.perfilObject.rol_id
 
       this.authService.getIPAddress().subscribe((data:any)=>{  
         this.ipAddress = data.ip; 
-        
+        this.swalProgress.close()
         if(this.ipUsuario != this.ipAddress){
           Swal.fire({  
             title: 'Aviso!',  
@@ -165,6 +169,15 @@ export class ProfileComponent implements OnInit {
   }
 
   cambiarIp(){
+    this.swalProgress = Swal.fire({
+      title: 'Cambiando ip',
+      html: 'Por favor espere...',
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
     var data = {
       'ip_public_usuario': this.ipAddress
     }
@@ -175,6 +188,7 @@ export class ProfileComponent implements OnInit {
           text: 'Se ha actualizado tu ip publica',
           icon: 'success'
         })
+        this.swalProgress.close()
         this.perfil()
     }, error =>{
       console.log(error)
@@ -191,6 +205,18 @@ export class ProfileComponent implements OnInit {
       contraseña: ['', [Validators.nullValidator]],
       cambiarContraseña: ['', [Validators.nullValidator]],
     });
+  }
+
+  timerBox(){
+    this.swalProgress = Swal.fire({
+      title: 'Cargando perfil',
+      html: 'Por favor espere...',
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
   }
 
   get usernameValidate() {
@@ -251,7 +277,8 @@ export class ProfileComponent implements OnInit {
           email_usuario: this.profileEditForm.get('email')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value,
           password_usuario: this.profileEditForm.get('contraseña')?.value,
-          codigo_verificacion: codigo
+          rol_id: this.rolUsuario,
+          codigo_verificacion: codigo,
         };
       }
       else{
@@ -261,6 +288,7 @@ export class ProfileComponent implements OnInit {
           apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
           email_usuario: this.profileEditForm.get('email')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value,
+          rol_id: this.rolUsuario,
           codigo_verificacion: codigo
         };
       }
@@ -275,6 +303,7 @@ export class ProfileComponent implements OnInit {
           apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
           email_usuario: this.profileEditForm.get('email')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value,
+          rol_id: this.rolUsuario,
           password_usuario: this.profileEditForm.get('contraseña')?.value
         };
       }
@@ -284,6 +313,7 @@ export class ProfileComponent implements OnInit {
           nombre_usuario: this.profileEditForm.get('nombre')?.value,
           apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
           email_usuario: this.profileEditForm.get('email')?.value,
+          rol_id: this.rolUsuario,
           numero_usuario: this.profileEditForm.get('numero')?.value
         };
       }
