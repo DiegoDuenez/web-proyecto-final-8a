@@ -57,8 +57,32 @@ export class FormCodigoAutenticacionComponent implements OnInit {
             this.successBox();
           }
           else if(this.rol == '3'){
-            localStorage.setItem('codigo', this.codigoConfirmacion);
-            this.successBox();
+
+            if(data.hasOwnProperty('token')){
+              const token = data.token;
+              console.log(data)
+              console.log(this.rol)
+              localStorage.setItem('token', token);
+              this.swalProgress.close()
+              this.successBox();
+              Swal.fire({  
+                title: 'Gracias!',  
+                text: 'Tu cuenta se ha autenticado correctamente!',  
+                icon: 'success',  
+                showCancelButton: false,  
+                allowOutsideClick: false,
+                confirmButtonText: 'Ok',  
+              }).then((result) => {  
+                if (result.value) {  
+                    this.router.navigate(['/profile']);
+                } 
+              })  
+            }
+            else{
+              localStorage.setItem('codigo', this.codigoConfirmacion);
+              this.successBox();
+            }
+            
           }
           
         }, error =>{
