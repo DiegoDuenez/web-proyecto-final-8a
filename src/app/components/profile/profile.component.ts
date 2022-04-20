@@ -170,6 +170,11 @@ export class ProfileComponent implements OnInit {
     }
     this.userService.cambiarIp(data, this.perfilObject.id).subscribe((data: any) => {
         console.log(data)
+        Swal.fire({
+          title: `Nueva ip !`,
+          text: 'Se ha actualizado tu ip publica',
+          icon: 'success'
+        })
         this.perfil()
     }, error =>{
       console.log(error)
