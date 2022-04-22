@@ -13,7 +13,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { VerificarCuentaComponent } from './components/verificar-cuenta/verificar-cuenta.component';
 import { FormCodigoAutenticacionComponent } from './components/form-codigo-autenticacion/form-codigo-autenticacion.component';
 import { FormCodigoCelularComponent } from './components/form-codigo-celular/form-codigo-celular.component';
-
+import { PeticionesComponent }  from './components/peticiones/peticiones.component';
 
 const routes: Routes = [
     {path:'login', component: LoginComponent},
@@ -21,6 +21,7 @@ const routes: Routes = [
     {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
     {path:'productos', component: ProductosComponent, canActivate: [AuthGuard]},
     {path:'usuarios', component: UsuariosComponent, canActivate: [AuthGuard]},
+    {path:'peticiones', component: PeticionesComponent, canActivate: [AuthGuard]},
     {path:'verificar/cuenta', component: VerificarCuentaComponent},
     {path:'autenticacion/cuenta', component: FormCodigoAutenticacionComponent, canActivate: [CodigoAuthGuard]},
     {path:'tercera/autenticacion/cuenta', component: FormCodigoCelularComponent, canActivate: [CodigoCelularGuard]},

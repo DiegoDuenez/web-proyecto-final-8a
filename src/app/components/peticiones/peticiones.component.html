@@ -1,1 +1,120 @@
-<p>peticiones works!</p>
+<app-navbar-logged></app-navbar-logged>
+
+
+<div class="container mt-5">
+
+    <!--<button type="button" class="btn btn-success" (click)="onSelectItemCreate()"  >Registrar producto</button>--> 
+
+    <table class="table mt-5 table-hover" >
+        <thead class="table-dark">
+          <tr class="text-center">
+            <th scope="col">Solicitud</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Recurso solicitado</th>
+            <th scope="col">Tipo de recurso</th>
+            <th scope="col">Status</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Fecha de solicitud</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of solicitudObject" class="text-center">
+            <td scope="row">{{s.solicitud}}</td>
+            <td scope="row">{{s.ReqUser}}</td>
+            <td scope="row">{{s.ReqItem}}</td>
+            <td scope="row">{{s.tipo}}</td>
+            <td scope="row">
+                <span *ngIf="s.status== 1  && s.code == null" class="text-warning">
+                     Pendiente de aceptar
+                </span>
+                <span *ngIf="s.status== 1 && s.code != null " class="text-warning">
+                    Pendiente de usar
+               </span>
+                <span *ngIf="s.status== 0" class="text-success">
+                    Usada
+                </span>
+                <span *ngIf="s.status== 2" class="text-danger">
+                Rechazada
+                </span>
+            </td>
+            <td scope="row">{{s.code}}</td>
+            <td scope="row">{{s.created_at}}</td>
+            <td>
+                <button type="button" *ngIf="s.status != 2 && s.code == null " 
+                class="btn btn-success" (click)="onSelectItem(s.id, '#peticionAceptarModal')">Aceptar</button> 
+                <br>
+                <br>
+                <button type="button" *ngIf="s.status != 2 && s.code == null " class="btn btn-danger" (click)="onSelectItem(s.id, '#peticionRechazarModal')">Rechazar</button>
+            </td>
+            <!--<td scope="row">
+                <span *ngIf="u.rol_id== 1" title="Bajo nivel" style="font-size:1.5rem"><i class="fa-solid fa-user"></i></span>
+                <span *ngIf="u.rol_id== 2" title="Medio nivel" style="font-size:1.5rem"><i class="fa-solid fa-user-tie" ></i></span>
+                <span *ngIf="u.rol_id== 3" title="Admin" style="font-size:1.5rem"><i class="fa-solid fa-user-astronaut"></i></span>
+            </td>
+            <td scope="row" > 
+                <span *ngIf="u.email_verified== 1"><i class="fa-solid fa-circle text-success" style="font-size:1rem"></i></span>
+                <span *ngIf="u.email_verified== 0"><i class="fa-solid fa-circle text-danger" style="font-size:1rem"></i></span>
+            </td>
+
+            <td>
+              <button type="button" class="btn btn-danger" *ngIf="u.status_usuario== 1 && u.id != perfilObject.id" (click)="onSelectItem(u)">Eliminar</button> &nbsp;
+              <button type="button" class="btn btn-warning" (click)="onSelectItemEdit(u)">Editar</button>
+            </td>-->
+          </tr>
+         
+        </tbody>
+      </table>
+
+</div>
+
+
+
+<!-- MODAL ACEPTAR --->
+
+<div class="modal fade" id="peticionAceptarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Aceptar solicitud</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form  [formGroup]="peticionAceptarForm" (ngSubmit)="aceptar()">
+          <div class="modal-body " >
+            <div class="input-group mb-3">
+                <input type="number" min="100001" class="form-control" formControlName="codigo" placeholder="Código" [(ngModel)]="codigoGenerado"
+                [class.is-invalid]="codigoValidate" required >
+                <button type="button" class="btn btn-dark" (click)="generarCodigo(100000, 999999)"><i class="fa-solid fa-dice"></i></button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- MODAL RECHAZAR --->
+
+<div class="modal fade" id="peticionRechazarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rechazar solicitud</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="peticionRechazarForm" (ngSubmit)="rechazar()">
+          <div class="modal-body">
+             
+              <textarea  class="form-control" formControlName="mensaje" id="mensaje" rows="10" required placeholder="Escribe una razón..." [class.is-invalid]="mensajeValidate"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { ProductoService } from 'src/app/services/producto/producto.service';
 import { Rol }  from '../../models/rol';
-
 import Swal from 'sweetalert2';
 import { User } from '../../models/user';
 @Component({
@@ -250,7 +249,7 @@ export class UsuariosComponent implements OnInit {
     }
     
 
-    this.productoService.solicitarPermiso(this.dataRequest).subscribe((data: any) => {
+    this.userService.solicitarPermiso(this.dataRequest).subscribe((data: any) => {
       
     }, error =>{
       console.log(error)

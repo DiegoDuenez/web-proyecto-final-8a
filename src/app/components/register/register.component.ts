@@ -62,9 +62,10 @@ export class RegisterComponent implements OnInit  {
   confirmBox(){  
     Swal.fire({  
       title: 'Gracias, por registrarte!',  
-      text: 'Confirma tu correo para poder logearte.',  
+      text: 'Confirma tu cuenta con el código de verificación que mandamos a tu correo.',  
       icon: 'success',  
       showCancelButton: false,  
+      allowOutsideClick: false,
       confirmButtonText: 'Ok',  
     }).then((result) => {  
       if (result.value) {  
