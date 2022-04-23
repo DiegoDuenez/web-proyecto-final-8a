@@ -54,6 +54,10 @@ export class AuthService {
     return !! localStorage.getItem('usuario') && localStorage.getItem('password') && localStorage.getItem('codigo') 
   }
 
+  esperandoAuth(data: any){
+    return this.httpClient.post(`${this.apiURL}esperando/auth`, data);
+  }
+
 
   logout() {
    // this.router.navigate(['/login']);

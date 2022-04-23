@@ -51,8 +51,36 @@ export class FormCodigoCelularComponent implements OnInit {
 
     this.echo.channel('channel-auth')
     .listen('AuthEvent', (resp: any) => {
-      console.log(resp)
+
+      if(resp.message.status == 1){
+        const token = resp.message.token;
+        localStorage.setItem('token', token);
+        Swal.fire({  
+          title: 'Autenticación correcta!',  
+          text: 'Se acepto la autenticación desde la app android.',  
+          icon: 'success',  
+          showCancelButton: false,  
+          allowOutsideClick: false,
+          confirmButtonText: 'Ok',  
+        }).then((result) => {  
+            this.router.navigate(['/profile']);
+        }) 
+      }
+      else{
+        Swal.fire({  
+          title: 'Autenticación rechazada!',  
+          text: 'Se rechazo la autenticación.',  
+          icon: 'error',  
+          showCancelButton: false,  
+          allowOutsideClick: false,
+          confirmButtonText: 'Ok',  
+        }).then((result) => {  
+            this.router.navigate(['/login']);
+        }) 
+      }
+      
     })
+
 
     this.username = localStorage.getItem('usuario')
     this.password = localStorage.getItem('password')
@@ -60,6 +88,21 @@ export class FormCodigoCelularComponent implements OnInit {
     this.codigoConfirmacionAnterior = localStorage.getItem('codigo')
     console.log(this.codigoConfirmacionAnterior)
 
+
+  }
+
+  esperandoAuth(){
+    this.setUser()
+    this.authService.esperandoAuth(this.user).subscribe((data: any) => {
+      console.log(data)
+      /*const token = data.token;
+      localStorage.setItem('token', token);
+      this.swalProgress.close()
+      this.successBox();*/
+    }, error =>{
+      console.log(error)
+      this.errorBox()
+    });
   }
 
   verify(): void{
