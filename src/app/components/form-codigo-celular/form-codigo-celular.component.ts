@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { User } from '../../models/user';
+import Echo from 'laravel-echo';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-form-codigo-celular',
@@ -12,7 +15,8 @@ import { User } from '../../models/user';
 })
 export class FormCodigoCelularComponent implements OnInit {
 
-  
+  echo: Echo;
+ 
   verifyForm!: FormGroup;
   user!: User;
   codigoConfirmacionAnterior?: any;
@@ -27,9 +31,28 @@ export class FormCodigoCelularComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router) 
-    { this.createForm() }
+    { 
+     
+      this.echo = new Echo({
+        broadcaster: 'pusher',
+        key: environment.pusher_key,
+        wsHost: environment.pusher_host,
+        cluster: environment.pusher_cluster,
+        wsPort: environment.pusher_port,
+        forceTLS: false,
+        disableStats: true,
+        enabledTransports: ['ws'],
+        //authEndpoint: '/custom/endpoint/auth'
+      })
+      this.createForm() 
+    }
 
   ngOnInit(): void {
+
+    this.echo.channel('channel-auth')
+    .listen('AuthEvent', (resp: any) => {
+      console.log(resp)
+    })
 
     this.username = localStorage.getItem('usuario')
     this.password = localStorage.getItem('password')
