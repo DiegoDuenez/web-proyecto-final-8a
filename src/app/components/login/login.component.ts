@@ -80,9 +80,12 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/profile']);
           }
           else if(data.user.rol_id == 2 || data.user.rol_id == 3){
+           
             localStorage.setItem('usuario', this.loginForm.get('username')?.value)
             localStorage.setItem('password', this.loginForm.get('password')?.value)
             localStorage.setItem('rol', data.user.rol_id)
+            localStorage.setItem('id', data.user.id)
+
 
             this.router.navigate(['/autenticacion/cuenta']);
           }

@@ -24,6 +24,7 @@ export class FormCodigoCelularComponent implements OnInit {
   username!: any;
   password!: any;
   rol!: any;
+  id!: any;
   swalProgress: any;
 
 
@@ -48,6 +49,12 @@ export class FormCodigoCelularComponent implements OnInit {
     }
 
   ngOnInit(): void {
+
+    /*this.echo.channel('channel-accesos')
+    .listen('AccesoEvent', (resp: any) => {
+      console.log(resp)
+    })*/
+    
 
     this.echo.channel('channel-auth')
     .listen('AuthEvent', (resp: any) => {
@@ -85,9 +92,12 @@ export class FormCodigoCelularComponent implements OnInit {
     this.username = localStorage.getItem('usuario')
     this.password = localStorage.getItem('password')
     this.rol = localStorage.getItem('rol')
+    this.id = localStorage.getItem('id')
     this.codigoConfirmacionAnterior = localStorage.getItem('codigo')
-    console.log(this.codigoConfirmacionAnterior)
-
+    
+    this.authService.accesoUsuario(this.id).subscribe((data: any) => {
+      console.log(data)
+    })
 
   }
 

@@ -58,6 +58,10 @@ export class AuthService {
     return this.httpClient.post(`${this.apiURL}esperando/auth`, data);
   }
 
+  accesoUsuario(id: number){
+    return this.httpClient.get(`${this.apiURL}accesos/usuario/${id}`);
+  }
+
 
   logout() {
    // this.router.navigate(['/login']);
