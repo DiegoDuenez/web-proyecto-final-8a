@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return Object.values(this.loginForm.controls).forEach((control) => {
         control.markAsTouched();
+        this.swalProgress.close()
       });
     } else {
       this.setUser();

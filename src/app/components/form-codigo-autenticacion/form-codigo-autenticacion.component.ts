@@ -48,9 +48,10 @@ export class FormCodigoAutenticacionComponent implements OnInit {
       this.setUser();
         
         this.authService.loginRol2(this.user).subscribe((data: any) => {
+          console.log('ola3 ',data)
+
           if(this.rol == '2' ){
             const token = data.token;
-            console.log(data)
             console.log(this.rol)
             localStorage.setItem('token', token);
             this.swalProgress.close()
@@ -60,7 +61,6 @@ export class FormCodigoAutenticacionComponent implements OnInit {
 
             if(data.hasOwnProperty('token')){
               const token = data.token;
-              console.log(data)
               console.log(this.rol)
               localStorage.setItem('token', token);
               this.swalProgress.close()

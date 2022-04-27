@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit  {
   messageAlert!: String;
 
   ipAddress!: String;
+  num: String = '+52';
 
 
   constructor(
@@ -28,7 +29,7 @@ export class RegisterComponent implements OnInit  {
   ) { this.createForm() }
 
   ngOnInit(): void {
-    this.getIP()
+    //this.getIP()
   }
 
 

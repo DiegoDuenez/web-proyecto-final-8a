@@ -142,8 +142,9 @@ export class ProfileComponent implements OnInit {
       this.perfilObject = data;
       this.ipUsuario = data.ip_public_usuario
       this.rolUsuario = this.perfilObject.rol_id
+      this.swalProgress.close()
 
-      this.authService.getIPAddress().subscribe((data:any)=>{  
+     /* this.authService.getIPAddress().subscribe((data:any)=>{  
         this.ipAddress = data.ip; 
         this.swalProgress.close()
         if(this.ipUsuario != this.ipAddress){
@@ -161,7 +162,7 @@ export class ProfileComponent implements OnInit {
             } 
           }) 
         }
-      });  
+      });  */
       
     }, error =>{
       console.log(error)
