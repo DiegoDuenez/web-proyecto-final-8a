@@ -54,7 +54,49 @@ export class RegisterComponent implements OnInit  {
        this.confirmBox()
         
       }, error =>{
-        console.log(error)
+        console.log(error.error.errors)
+
+        if(error.error.errors.hasOwnProperty('numero_usuario')){
+          Swal.fire({  
+            title: 'Error',  
+            text: 'Este número de usuario ya ha sido registrado',  
+            icon: 'error',  
+            showCancelButton: false,  
+            allowOutsideClick: false,
+            confirmButtonText: 'Ok',  
+          })  
+        }
+        if(error.error.errors.hasOwnProperty('email_usuario')){
+          Swal.fire({  
+            title: 'Error',  
+            text: 'Este email ya ha sido registrado',  
+            icon: 'error',  
+            showCancelButton: false,  
+            allowOutsideClick: false,
+            confirmButtonText: 'Ok',  
+          })  
+        }
+        if(error.error.errors.hasOwnProperty('username_usuario')){
+          Swal.fire({  
+            title: 'Error',  
+            text: 'Este nombre de usuario ya ha sido registrado',  
+            icon: 'error',  
+            showCancelButton: false,  
+            allowOutsideClick: false,
+            confirmButtonText: 'Ok',  
+          })  
+        }
+        if(error.error.errors.hasOwnProperty('ip_public_usuario')){
+          Swal.fire({  
+            title: 'Error',  
+            text: 'Esta ip ya ha sido registrada',  
+            icon: 'error',  
+            showCancelButton: false,  
+            allowOutsideClick: false,
+            confirmButtonText: 'Ok',  
+          })  
+        }
+
       });
     }
 
