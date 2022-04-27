@@ -69,8 +69,14 @@ export class ProfileComponent implements OnInit {
         Swal.fire({
           title: `Autorizado`,
           text: 'Se ha actualizado tu información',
+          allowOutsideClick: false,
           icon: 'success'
-        })
+        }).then((result) => {  
+          if (result.value) {  
+            this.perfil()
+
+          } 
+        }) 
   
       }, error =>{
         console.log(error)
@@ -140,6 +146,7 @@ export class ProfileComponent implements OnInit {
     this.timerBox()
     this.authService.perfil().subscribe((data: any) => {
       this.perfilObject = data;
+      console.log(this.perfilObject)
       this.ipUsuario = data.ip_public_usuario
       this.rolUsuario = this.perfilObject.rol_id
       this.swalProgress.close()
@@ -204,6 +211,7 @@ export class ProfileComponent implements OnInit {
       email: ['', [Validators.required]],
       numero: ['', [Validators.required]],
       contraseña: ['', [Validators.nullValidator]],
+      ip: ['', [Validators.required]],
       cambiarContraseña: ['', [Validators.nullValidator]],
     });
   }
@@ -255,6 +263,13 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  get ipValidate(){
+    return (
+      this.profileEditForm.get('ip')?.invalid &&
+      this.profileEditForm.get('ip')?.touched
+    );
+  }
+
   get contraseniaValidate() {
     if(this.passwordInput === true){
       return (
@@ -279,6 +294,7 @@ export class ProfileComponent implements OnInit {
           numero_usuario: this.profileEditForm.get('numero')?.value,
           password_usuario: this.profileEditForm.get('contraseña')?.value,
           rol_id: this.rolUsuario,
+          ip_public_usuario: this.profileEditForm.get('ip')?.value,
           codigo_verificacion: codigo,
         };
       }
@@ -290,6 +306,7 @@ export class ProfileComponent implements OnInit {
           email_usuario: this.profileEditForm.get('email')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value,
           rol_id: this.rolUsuario,
+          ip_public_usuario: this.profileEditForm.get('ip')?.value,
           codigo_verificacion: codigo
         };
       }
@@ -305,6 +322,7 @@ export class ProfileComponent implements OnInit {
           email_usuario: this.profileEditForm.get('email')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value,
           rol_id: this.rolUsuario,
+          ip_public_usuario: this.profileEditForm.get('ip')?.value,
           password_usuario: this.profileEditForm.get('contraseña')?.value
         };
       }
@@ -315,6 +333,7 @@ export class ProfileComponent implements OnInit {
           apellidos_usuario: this.profileEditForm.get('apellidos')?.value,
           email_usuario: this.profileEditForm.get('email')?.value,
           rol_id: this.rolUsuario,
+          ip_public_usuario: this.profileEditForm.get('ip')?.value,
           numero_usuario: this.profileEditForm.get('numero')?.value
         };
       }

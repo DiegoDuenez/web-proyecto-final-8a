@@ -27,6 +27,8 @@
                 [class.is-invalid]="emailValidate"></li>
             <li class="list-group-item"><input type="text" class="form-control" formControlName="numero" placeholder="Número" [(ngModel)]="perfilObject.numero_usuario"
                 [class.is-invalid]="numeroValidate"></li>
+            <li class="list-group-item"><input type="text" class="form-control" formControlName="ip" placeholder="Ip" [(ngModel)]="perfilObject.ip_public_usuario"
+                [class.is-invalid]="ipValidate"></li>
             <li class="list-group-item">
                 <input type="password" class="form-control" formControlName="contraseña" placeholder="Nueva contraseña" [class.is-invalid]="contraseniaValidate" *ngIf="passwordInput===true">
                 <br>
