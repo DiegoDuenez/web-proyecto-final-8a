@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://127.0.0.1:8000/api/',
+  apiURL: 'http://192.168.1.95:8000/api/',
   pusher_key: '1234ASD',
   pusher_cluster: 'mt1',
-  pusher_host: '127.0.0.1:6001',
+  pusher_host: '192.168.1.95',
   pusher_port: '6001'
 };
 

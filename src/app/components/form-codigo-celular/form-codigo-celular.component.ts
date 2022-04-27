@@ -58,7 +58,7 @@ export class FormCodigoCelularComponent implements OnInit {
 
     this.echo.channel('channel-auth')
     .listen('AuthEvent', (resp: any) => {
-
+        console.log(resp)
       if(resp.message.status == 1){
         const token = resp.message.token;
         localStorage.setItem('token', token);
