@@ -21,6 +21,8 @@ export class RegisterComponent implements OnInit  {
   ipAddress!: String;
   num: String = '+52';
 
+  swalProgress: any;
+
 
   constructor(
     private fb: FormBuilder,
@@ -35,14 +37,19 @@ export class RegisterComponent implements OnInit  {
 
   register(): void{
 
+    this.timerBox()
+
     if(this.registerForm.invalid){
       return Object.values(this.registerForm.controls).forEach(control =>{
         control.markAsTouched();
+        this.swalProgress.close()
+
       });
     }
     else{
       this.setUser();
       this.authService.register(this.user).subscribe((data: any) => {
+        this.swalProgress.close()
 
         this.authService.alert.emit({
           alerta: {
@@ -58,7 +65,7 @@ export class RegisterComponent implements OnInit  {
 
         if(error.error.errors.hasOwnProperty('numero_usuario')){
           Swal.fire({  
-            title: 'Error',  
+            title: 'Datos incorrectos',  
             text: 'Este número de usuario ya ha sido registrado',  
             icon: 'error',  
             showCancelButton: false,  
@@ -68,7 +75,7 @@ export class RegisterComponent implements OnInit  {
         }
         if(error.error.errors.hasOwnProperty('email_usuario')){
           Swal.fire({  
-            title: 'Error',  
+            title: 'Datos incorrectos',  
             text: 'Este email ya ha sido registrado',  
             icon: 'error',  
             showCancelButton: false,  
@@ -78,7 +85,7 @@ export class RegisterComponent implements OnInit  {
         }
         if(error.error.errors.hasOwnProperty('username_usuario')){
           Swal.fire({  
-            title: 'Error',  
+            title: 'Datos incorrectos',  
             text: 'Este nombre de usuario ya ha sido registrado',  
             icon: 'error',  
             showCancelButton: false,  
@@ -88,7 +95,7 @@ export class RegisterComponent implements OnInit  {
         }
         if(error.error.errors.hasOwnProperty('ip_public_usuario')){
           Swal.fire({  
-            title: 'Error',  
+            title: 'Datos incorrectos',  
             text: 'Esta ip ya ha sido registrada',  
             icon: 'error',  
             showCancelButton: false,  
@@ -100,6 +107,18 @@ export class RegisterComponent implements OnInit  {
       });
     }
 
+  }
+
+  timerBox(){
+    this.swalProgress = Swal.fire({
+      title: 'Registrando',
+      html: 'Por favor espere...',
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
   }
 
   confirmBox(){  
