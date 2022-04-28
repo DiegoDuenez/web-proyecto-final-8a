@@ -34,6 +34,7 @@ export class UsuariosComponent implements OnInit {
   emailUsuario!: String;
   numeroUsuario!: String;
   rolUsuario!: String;
+  ipUsuario!: String;
 
 
   idRolSelect!:any;
@@ -51,6 +52,8 @@ export class UsuariosComponent implements OnInit {
     this.usuarios()
     this.perfil()
     this.roles()
+
+    
   }
 
   usuarios(){
@@ -79,6 +82,10 @@ export class UsuariosComponent implements OnInit {
     this.authService.perfil().subscribe((data: any) => {
       this.perfilObject = data;
       console.log(this.perfilObject)
+      if(this.perfilObject.rol_id != '3'){
+        alert('ol')
+        this.usuarioEditForm.get('ip')?.disable()
+      }
       
     }, error =>{
       console.log(error)
@@ -178,6 +185,7 @@ export class UsuariosComponent implements OnInit {
       nombre: ['', [Validators.required]],
       apellidos: ['', [Validators.required]],
       email: ['', [Validators.required]],
+      ip: ['', [Validators.required]],
       numero: ['', [Validators.required]]
     });
   }
@@ -308,10 +316,11 @@ export class UsuariosComponent implements OnInit {
     this.nombreUsuario = this.itemSelected.nombre_usuario
     this.apellidosUsuario = this.itemSelected.apellidos_usuario
     this.emailUsuario = this.itemSelected.email_usuario
+    this.ipUsuario = this.itemSelected.ip_public_usuario
     this.numeroUsuario = this.itemSelected.numero_usuario
     this.rolUsuario = this.itemSelected.rol_id
 
-    console.log(this.itemSelected)
+    console.log("selec ", this.itemSelected)
 
     if(this.perfilObject.rol_id == 1){
     
@@ -352,6 +361,7 @@ export class UsuariosComponent implements OnInit {
       email_usuario: this.usuarioEditForm.get('email')?.value,
       numero_usuario: this.usuarioEditForm.get('numero')?.value,
       rol_id: this.rolUsuario,
+      ip_public_usuario: this.usuarioEditForm.get('ip')?.value,
       codigo_verificacion: codigo,
     };
   }
@@ -395,6 +405,13 @@ export class UsuariosComponent implements OnInit {
     return (
       this.usuarioEditForm.get('rol')?.invalid &&
       this.usuarioEditForm.get('rol')?.touched
+    );
+  }
+
+  get ipValidate(){
+    return (
+      this.usuarioEditForm.get('ip')?.invalid &&
+      this.usuarioEditForm.get('ip')?.touched
     );
   }
 
