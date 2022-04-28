@@ -83,7 +83,7 @@ export class UsuariosComponent implements OnInit {
       this.perfilObject = data;
       console.log(this.perfilObject)
       if(this.perfilObject.rol_id != '3'){
-        alert('ol')
+        //alert('ol')
         this.usuarioEditForm.get('ip')?.disable()
       }
       
